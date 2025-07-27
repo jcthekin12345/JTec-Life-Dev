@@ -8,3 +8,11 @@ public class LifeEvent
     public string Description { get; set; }
     public LifeEventType Type { get; set; }
 }
+
+public class LifeEventType
+{
+}
+
+public class BeingId
+{
+}
