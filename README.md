@@ -1,35 +1,39 @@
 # JLifeEngine Documentation
+
 ## Table of Contents
+1. [Overview](#overview)
+2. [Getting Started](#getting-started)
+3. [Architecture](#architecture)
+4. [Core Systems](#core-systems)
+5. [API Reference](#api-reference)
+6. [Development Guide](#development-guide)
+7. [Examples](#examples)
 
-Overview
-Getting Started
-Architecture
-Core Systems
-API Reference
-Development Guide
-Examples
+## Overview
 
-Overview
 JLifeEngine is a life simulation engine designed for creating rich, autonomous virtual worlds where beings live, interact, and evolve. The engine focuses on emergent storytelling through genuine artificial life rather than scripted narratives.
-Key Features
 
-Autonomous Beings: Characters with needs, personalities, and decision-making capabilities
-Emergent Storytelling: Stories arise naturally from being interactions
-Rich Presentation: Advanced terminal rendering and sound systems
-Persistent Worlds: Save and load complete world states
-Modular Architecture: Clean separation of concerns for easy extension
+### Key Features
+- **Autonomous Beings**: Characters with needs, personalities, and decision-making capabilities
+- **Emergent Storytelling**: Stories arise naturally from being interactions
+- **Rich Presentation**: Advanced terminal rendering and sound systems
+- **Persistent Worlds**: Save and load complete world states
+- **Modular Architecture**: Clean separation of concerns for easy extension
 
-Philosophy
-The core principle of JLifeEngine is that Life comes first. Every system and feature serves the goal of creating believable, living beings that players become emotionally invested in.
-Getting Started
-Prerequisites
+### Philosophy
+The core principle of JLifeEngine is that **Life comes first**. Every system and feature serves the goal of creating believable, living beings that players become emotionally invested in.
 
-.NET 8.0 or later
-Windows/Linux/macOS terminal with color support
-Audio device for sound features (optional)
+## Getting Started
 
-Installation
-bash# Clone the repository
+### Prerequisites
+- .NET 8.0 or later
+- Windows/Linux/macOS terminal with color support
+- Audio device for sound features (optional)
+
+### Installation
+
+```bash
+# Clone the repository
 git clone https://github.com/youruser/JLifeEngine.git
 cd JLifeEngine
 
@@ -38,8 +42,12 @@ dotnet build
 
 # Run the sample world
 dotnet run --project JLifeEngine.Console
-Quick Start
-csharpusing JLifeEngine.Core;
+```
+
+### Quick Start
+
+```csharp
+using JLifeEngine.Core;
 using JLifeEngine.Core.Life;
 using JLifeEngine.Core.Presentation;
 
@@ -59,31 +67,43 @@ world.AddBeing(alice);
 // Create and start the engine
 var engine = new LifeEngine(world);
 await engine.RunAsync();
-Architecture
+```
+
+## Architecture
+
 JLifeEngine follows a modular architecture with four main layers:
-┌─────────────────┐
-│  Presentation   │ ← Terminal rendering, sound effects
-├─────────────────┤
-│      Life       │ ← Beings, needs, relationships, actions
-├─────────────────┤
-│   Persistence   │ ← Save/load, world history
-├─────────────────┤
-│ Infrastructure  │ ← Game loop, events, utilities
-└─────────────────┘
-Design Principles
 
-Life-First Design: All features serve the life simulation
-Emergent Behavior: Complex stories arise from simple rules
-Autonomous Agency: Beings make their own decisions
-Observable Life: Rich presentation reveals the depth of simulation
-Persistent Growth: Worlds evolve continuously over time
+```
+â”Œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”
+â”‚  Presentation   â”‚ â† Terminal rendering, sound effects
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚      Life       â”‚ â† Beings, needs, relationships, actions
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚   Persistence   â”‚ â† Save/load, world history
+â”œâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”¤
+â”‚ Infrastructure  â”‚ â† Game loop, events, utilities
+â””â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”˜
+```
 
-Core Systems
-Life System
+### Design Principles
+
+1. **Life-First Design**: All features serve the life simulation
+2. **Emergent Behavior**: Complex stories arise from simple rules
+3. **Autonomous Agency**: Beings make their own decisions
+4. **Observable Life**: Rich presentation reveals the depth of simulation
+5. **Persistent Growth**: Worlds evolve continuously over time
+
+## Core Systems
+
+### Life System
+
 The heart of JLifeEngine where autonomous beings live and interact.
-Beings
-Every being in the world is an instance of the Being class:
-csharppublic class Being
+
+#### Beings
+Every being in the world is an instance of the `Being` class:
+
+```csharp
+public class Being
 {
     public BeingId Id { get; set; }
     public string Name { get; set; }
@@ -95,16 +115,19 @@ csharppublic class Being
     public Location Location { get; set; }
     public BeingState State { get; set; }
 }
-Needs System
+```
+
+#### Needs System
 Beings have various needs that drive their behavior:
 
-HungerNeed: Drives beings to seek food
-SocialNeed: Motivates social interactions
-RestNeed: Requires periodic rest/sleep
-SafetyNeed: Seeks secure environments
-CreativityNeed: Pursues creative activities
+- **HungerNeed**: Drives beings to seek food
+- **SocialNeed**: Motivates social interactions
+- **RestNeed**: Requires periodic rest/sleep
+- **SafetyNeed**: Seeks secure environments
+- **CreativityNeed**: Pursues creative activities
 
-csharppublic abstract class Need
+```csharp
+public abstract class Need
 {
     public float Intensity { get; set; }    // 0.0 to 1.0
     public DateTime LastSatisfied { get; set; }
@@ -113,9 +136,13 @@ csharppublic abstract class Need
     public abstract bool ShouldActOn();
     public abstract List<ActionType> GetSatisfyingActions();
 }
-Action System
+```
+
+#### Action System
 Beings perform actions to satisfy their needs:
-csharppublic abstract class Action
+
+```csharp
+public abstract class Action
 {
     public ActionId Id { get; set; }
     public BeingId Actor { get; set; }
@@ -126,9 +153,13 @@ csharppublic abstract class Action
     public abstract void Execute(World world);
     public abstract void Complete(World world);
 }
-Relationship System
+```
+
+#### Relationship System
 Beings form and maintain relationships with each other:
-csharppublic class Relationship
+
+```csharp
+public class Relationship
 {
     public BeingId From { get; set; }
     public BeingId To { get; set; }
@@ -137,10 +168,15 @@ csharppublic class Relationship
     public List<Memory> SharedMemories { get; set; }
     public DateTime LastInteraction { get; set; }
 }
-Presentation System
-Terminal Renderer
-The TerminalRenderer provides rich console output with multiple view modes:
-csharppublic enum ViewMode
+```
+
+### Presentation System
+
+#### Terminal Renderer
+The `TerminalRenderer` provides rich console output with multiple view modes:
+
+```csharp
+public enum ViewMode
 {
     Overview,       // World summary
     FocusedBeing,   // Detail view of one being
@@ -148,29 +184,43 @@ csharppublic enum ViewMode
     Relationships,  // Social network view
     History        // Event timeline
 }
-Sound Engine
-The SoundEngine provides ambient audio and event-triggered sound effects:
-csharppublic class SoundEngine
+```
+
+#### Sound Engine
+The `SoundEngine` provides ambient audio and event-triggered sound effects:
+
+```csharp
+public class SoundEngine
 {
     public void PlayLifeEvent(LifeEvent evt);
     public void UpdateAmbient(World world);
     public void SetMasterVolume(float volume);
     public void EnableSpatialAudio(bool enabled);
 }
-Persistence System
-World Save Manager
+```
+
+### Persistence System
+
+#### World Save Manager
 Complete world state can be saved and restored:
-csharppublic class WorldSaveManager
+
+```csharp
+public class WorldSaveManager
 {
     public async Task SaveWorldAsync(World world, string filePath);
     public async Task<World> LoadWorldAsync(string filePath);
     public async Task<List<SaveInfo>> GetSaveListAsync(string directory);
     public async Task CreateBackupAsync(World world, string backupPath);
 }
-Infrastructure System
-Life Engine
+```
+
+### Infrastructure System
+
+#### Life Engine
 The main engine coordinates all systems:
-csharppublic class LifeEngine
+
+```csharp
+public class LifeEngine
 {
     public async Task RunAsync();
     public void Pause();
@@ -178,69 +228,78 @@ csharppublic class LifeEngine
     public void SetTimeScale(float scale);
     public void RegisterSystem(ILifeSystem system);
 }
-Event System
+```
+
+#### Event System
 All significant events flow through the event bus:
-csharppublic class EventBus
+
+```csharp
+public class EventBus
 {
     public event Action<LifeEvent> LifeEventOccurred;
     public void PublishEvent(LifeEvent evt);
     public List<LifeEvent> GetHistory(TimeSpan timeSpan);
 }
-API Reference
-Core Classes
-Being
+```
+
+## API Reference
+
+### Core Classes
+
+#### Being
 Represents an autonomous entity in the world.
-Properties:
 
-Id: Unique identifier
-Name: Display name
-Needs: List of current needs
-Traits: Personality traits affecting behavior
-Relationships: Connections to other beings
-Memories: Stored experiences
-CurrentAction: Active action (if any)
-Location: Current position in world
+**Properties:**
+- `Id`: Unique identifier
+- `Name`: Display name
+- `Needs`: List of current needs
+- `Traits`: Personality traits affecting behavior
+- `Relationships`: Connections to other beings
+- `Memories`: Stored experiences
+- `CurrentAction`: Active action (if any)
+- `Location`: Current position in world
 
-Methods:
+**Methods:**
+- `AddNeed(Need need)`: Add a new need
+- `SatisfyNeed<T>() where T : Need`: Satisfy a specific need type
+- `GetStrongestNeed()`: Returns the most urgent need
+- `CanInteractWith(Being other)`: Check if interaction is possible
+- `FormRelationship(Being other, RelationshipType type)`: Create new relationship
 
-AddNeed(Need need): Add a new need
-SatisfyNeed<T>() where T : Need: Satisfy a specific need type
-GetStrongestNeed(): Returns the most urgent need
-CanInteractWith(Being other): Check if interaction is possible
-FormRelationship(Being other, RelationshipType type): Create new relationship
-
-World
+#### World
 Container for all world state and beings.
-Properties:
 
-Beings: All beings in the world
-Locations: Available locations
-CurrentTime: World simulation time
-EventHistory: Historical events
+**Properties:**
+- `Beings`: All beings in the world
+- `Locations`: Available locations
+- `CurrentTime`: World simulation time
+- `EventHistory`: Historical events
 
-Methods:
+**Methods:**
+- `AddBeing(Being being)`: Add being to world
+- `RemoveBeing(BeingId id)`: Remove being from world
+- `GetBeingsAt(Location location)`: Get beings at specific location
+- `GetNearbyBeings(Being being, float radius)`: Find beings within range
+- `AdvanceTime(TimeSpan delta)`: Progress world time
 
-AddBeing(Being being): Add being to world
-RemoveBeing(BeingId id): Remove being from world
-GetBeingsAt(Location location): Get beings at specific location
-GetNearbyBeings(Being being, float radius): Find beings within range
-AdvanceTime(TimeSpan delta): Progress world time
-
-LifeEngine
+#### LifeEngine
 Main engine orchestrating all systems.
-Methods:
 
-RunAsync(): Start the main game loop
-Pause(): Pause simulation
-Resume(): Resume simulation
-SaveWorldAsync(string path): Save current world state
-LoadWorldAsync(string path): Load world from file
-RegisterEventHandler(Action<LifeEvent> handler): Subscribe to events
+**Methods:**
+- `RunAsync()`: Start the main game loop
+- `Pause()`: Pause simulation
+- `Resume()`: Resume simulation
+- `SaveWorldAsync(string path)`: Save current world state
+- `LoadWorldAsync(string path)`: Load world from file
+- `RegisterEventHandler(Action<LifeEvent> handler)`: Subscribe to events
 
-Life System Interfaces
-ILifeSystem
+### Life System Interfaces
+
+#### ILifeSystem
 Base interface for all life systems.
-csharppublic interface ILifeSystem
+
+```csharp
+public interface ILifeSystem
 {
     string Name { get; }
     int Priority { get; }
@@ -248,44 +307,52 @@ csharppublic interface ILifeSystem
     void Update(TimeSpan deltaTime, World world);
     void Shutdown();
 }
-INeedProvider
+```
+
+#### INeedProvider
 Interface for objects that can satisfy needs.
-csharppublic interface INeedProvider
+
+```csharp
+public interface INeedProvider
 {
     List<Type> SatisfiableNeeds { get; }
     bool CanSatisfy(Need need, Being being);
     void Satisfy(Need need, Being being);
 }
-Events
-LifeEvent
+```
+
+### Events
+
+#### LifeEvent
 Base class for all life events.
-Properties:
 
-Timestamp: When the event occurred
-Type: Classification of the event
-PrimaryBeing: Main actor (if applicable)
-SecondaryBeing: Secondary actor (if applicable)
-Description: Human-readable description
-Data: Additional event-specific data
+**Properties:**
+- `Timestamp`: When the event occurred
+- `Type`: Classification of the event
+- `PrimaryBeing`: Main actor (if applicable)
+- `SecondaryBeing`: Secondary actor (if applicable)
+- `Description`: Human-readable description
+- `Data`: Additional event-specific data
 
-Event Types:
+**Event Types:**
+- `BeingBorn`: New being enters the world
+- `BeingDied`: Being leaves the world
+- `NeedSatisfied`: A need was fulfilled
+- `ActionStarted`: Being begins new action
+- `ActionCompleted`: Being finishes action
+- `RelationshipFormed`: New relationship created
+- `RelationshipChanged`: Existing relationship modified
+- `InteractionOccurred`: Beings interacted
+- `LocationChanged`: Being moved to new location
 
-BeingBorn: New being enters the world
-BeingDied: Being leaves the world
-NeedSatisfied: A need was fulfilled
-ActionStarted: Being begins new action
-ActionCompleted: Being finishes action
-RelationshipFormed: New relationship created
-RelationshipChanged: Existing relationship modified
-InteractionOccurred: Beings interacted
-LocationChanged: Being moved to new location
+## Development Guide
 
-Development Guide
-Adding New Need Types
+### Adding New Need Types
 
-Create a class inheriting from Need:
+1. Create a class inheriting from `Need`:
 
-csharppublic class CreativityNeed : Need
+```csharp
+public class CreativityNeed : Need
 {
     public override bool ShouldActOn()
     {
@@ -302,15 +369,18 @@ csharppublic class CreativityNeed : Need
         };
     }
 }
+```
 
-Register the need with the NeedSystem.
-Create actions that can satisfy the need.
+2. Register the need with the `NeedSystem`.
 
-Adding New Action Types
+3. Create actions that can satisfy the need.
 
-Create a class inheriting from Action:
+### Adding New Action Types
 
-csharppublic class PaintAction : Action
+1. Create a class inheriting from `Action`:
+
+```csharp
+public class PaintAction : Action
 {
     public override bool CanExecute(World world)
     {
@@ -333,11 +403,14 @@ csharppublic class PaintAction : Action
         });
     }
 }
-Custom Life Systems
+```
 
-Implement ILifeSystem:
+### Custom Life Systems
 
-csharppublic class WeatherSystem : ILifeSystem
+1. Implement `ILifeSystem`:
+
+```csharp
+public class WeatherSystem : ILifeSystem
 {
     public string Name => "Weather";
     public int Priority => 10;
@@ -358,13 +431,20 @@ csharppublic class WeatherSystem : ILifeSystem
         // Cleanup resources
     }
 }
+```
 
-Register with the engine:
+2. Register with the engine:
 
-csharpengine.RegisterSystem(new WeatherSystem());
-Testing Life Systems
+```csharp
+engine.RegisterSystem(new WeatherSystem());
+```
+
+### Testing Life Systems
+
 Use the built-in testing framework:
-csharp[Test]
+
+```csharp
+[Test]
 public void HungerNeed_ShouldTriggerEatingAction()
 {
     // Arrange
@@ -383,9 +463,14 @@ public void HungerNeed_ShouldTriggerEatingAction()
     // Assert
     Assert.IsInstanceOf<EatAction>(being.CurrentAction);
 }
-Examples
-Basic World Setup
-csharp// Create world with two beings
+```
+
+## Examples
+
+### Basic World Setup
+
+```csharp
+// Create world with two beings
 var world = new World();
 
 var alice = new Being
@@ -425,8 +510,12 @@ world.AddBeing(bob);
 // Create engine and run
 var engine = new LifeEngine(world);
 await engine.RunAsync();
-Custom Event Handling
-csharpengine.EventBus.LifeEventOccurred += (evt) =>
+```
+
+### Custom Event Handling
+
+```csharp
+engine.EventBus.LifeEventOccurred += (evt) =>
 {
     switch (evt.Type)
     {
@@ -441,8 +530,12 @@ csharpengine.EventBus.LifeEventOccurred += (evt) =>
             break;
     }
 };
-Advanced World Configuration
-csharpvar config = new WorldConfiguration
+```
+
+### Advanced World Configuration
+
+```csharp
+var config = new WorldConfiguration
 {
     MaxBeings = 50,
     TimeScale = 1.0f,
@@ -469,8 +562,12 @@ world.AddLocation(new Location("Forest")
     Capacity = 10,
     Features = { LocationFeature.Resources, LocationFeature.Peaceful }
 });
-Save System Usage
-csharp// Auto-save every 5 minutes
+```
+
+### Save System Usage
+
+```csharp
+// Auto-save every 5 minutes
 var saveTimer = new Timer(async _ =>
 {
     await engine.SaveWorldAsync($"autosave_{DateTime.Now:yyyyMMdd_HHmmss}.json");
@@ -482,8 +579,12 @@ if (File.Exists("my_world.json"))
     var world = await engine.LoadWorldAsync("my_world.json");
     Console.WriteLine($"Loaded world with {world.Beings.Count} beings");
 }
-Performance Monitoring
-csharpengine.PerformanceMonitor.SystemUpdated += (systemName, updateTime) =>
+```
+
+### Performance Monitoring
+
+```csharp
+engine.PerformanceMonitor.SystemUpdated += (systemName, updateTime) =>
 {
     if (updateTime > TimeSpan.FromMilliseconds(16))
     {
@@ -495,5 +596,8 @@ csharpengine.PerformanceMonitor.SystemUpdated += (systemName, updateTime) =>
 var stats = engine.GetPerformanceStats();
 Console.WriteLine($"Average FPS: {stats.AverageFPS:F1}");
 Console.WriteLine($"Memory Usage: {stats.MemoryUsageMB:F1} MB");
+```
 
-JLifeEngine - Where artificial life comes alive
+---
+
+*JLifeEngine - Where artificial life comes alive*
