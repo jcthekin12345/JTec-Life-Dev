@@ -1,3 +1,5 @@
+using JLifeEngine.Core.Infrastructure;
+
 namespace JLifeEngine.Core.Life.Entities;
 
 public class Being
@@ -10,4 +12,8 @@ public class Being
     public Action? CurrentAction { get; set; }
     public Location Location { get; set; }
     public DateTime LastUpdate { get; set; }
+}
+
+public class Location
+{
 }
