@@ -1,5 +1,5 @@
-JLifeEngine Documentation
-Table of Contents
+# JLifeEngine Documentation
+## Table of Contents
 
 Overview
 Getting Started
