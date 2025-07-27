@@ -1,3 +1,8 @@
+using JLifeEngine.Core.Life;
+using JLifeEngine.Core.Life.Systems;
+using JLifeEngine.Core.Persistence;
+using JLifeEngine.Core.Presentation;
+
 namespace JLifeEngine.Core.Infrastructure;
 
 public class LifeEngine
@@ -6,7 +11,10 @@ public class LifeEngine
     private readonly TerminalRenderer _renderer;
     private readonly SoundEngine _soundEngine;
     private readonly WorldSaveManager _saveManager;
-    
+    private bool _isRunning;
+    private World _world;
+    private ViewMode _currentViewMode;
+
     public async Task RunAsync()
     {
         var lastUpdate = DateTime.UtcNow;
@@ -32,4 +40,13 @@ public class LifeEngine
             await Task.Delay(16); // ~60 FPS
         }
     }
+
+    private async Task HandleInputAsync()
+    {
+        throw new NotImplementedException();
+    }
+}
+
+internal class ViewMode
+{
 }
