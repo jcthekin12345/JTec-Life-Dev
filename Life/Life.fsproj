@@ -7,12 +7,6 @@
 
     <ItemGroup>
         <Compile Include="Program.fs"/>
-        <Compile Include="engine\SceneBuilder.fs" />
-        <Compile Include="engine\SceneEffects.fs" />
-        <Compile Include="engine\Scene.fs" />
-        <Compile Include="engine\Dialogue.fs" />
-        <Compile Include="engine\DialogueBuilder.fs" />
-        <Compile Include="engine\SoundEffects.fs" />
     </ItemGroup>
 
 </Project>
